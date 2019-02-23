@@ -1,3 +1,4 @@
+import datetime
 import os.path
 import pickle
 
@@ -30,3 +31,20 @@ def get_creds():
             pickle.dump(creds, token)
 
     return creds
+
+
+def get_10_next_events(service):
+    """
+    Get 10 next calendar events from now on.
+    :param service:
+    :return events:
+    """
+    now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+    print('Getting the upcoming 10 events')
+    events_result = service.events().list(calendarId='primary',
+                                          timeMin=now,
+                                          maxResults=10,
+                                          singleEvents=True,
+                                          orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    return events
