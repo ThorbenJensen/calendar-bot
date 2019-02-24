@@ -4,7 +4,7 @@ from __future__ import print_function
 
 from googleapiclient.discovery import build
 
-from calendar_bot.calendar import get_creds, get_10_next_events
+from calendar_bot.calendar import get_creds, get_events_last_24h
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
     """
     creds = get_creds()
     service = build('calendar', 'v3', credentials=creds)
-    events = get_10_next_events(service)
+    events = get_events_last_24h(service)
 
     if not events:
         print('No upcoming events found.')

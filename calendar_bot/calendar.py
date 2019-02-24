@@ -33,17 +33,24 @@ def get_creds():
     return creds
 
 
-def get_10_next_events(service):
+def datetime_to_rfc3339(dt: datetime.datetime) -> str:
+    return dt.isoformat() + 'Z'
+
+
+def get_events_last_24h(service):
     """
-    Get 10 next calendar events from now on.
+    Get calendar events from previous 24 hours, until now.
     :param service:
     :return events:
     """
-    now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+    time_max = datetime.datetime.utcnow()
+    time_min = time_max - datetime.timedelta(days=1.0)
+
     print('Getting the upcoming 10 events')
     events_result = service.events().list(calendarId='primary',
-                                          timeMin=now,
-                                          maxResults=10,
+                                          timeMin=datetime_to_rfc3339(time_min),
+                                          timeMax=datetime_to_rfc3339(time_max),
+                                          maxResults=100,
                                           singleEvents=True,
                                           orderBy='startTime').execute()
     events = events_result.get('items', [])
