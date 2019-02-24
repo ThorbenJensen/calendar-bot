@@ -1,3 +1,4 @@
+import copy
 import datetime
 import os.path
 import pickle
@@ -55,3 +56,26 @@ def get_events_last_24h(service):
                                           orderBy='startTime').execute()
     events = events_result.get('items', [])
     return events
+
+
+def events_filter_keys(events):
+    keys_selection = ['id', 'summary', 'start', 'end', 'location',
+                      'description']
+    events_selected = [{key: event.get(key) for key in keys_selection}
+                       for event in events]
+
+    # format fields start and end
+    for event in events_selected:
+        # start
+        event['start_date'] = event['start'].get('date')
+        event['start_datetime'] = event['start'].get('dateTime')
+        # end
+        event['end_date'] = event['end'].get('date')
+        event['end_datetime'] = event['end'].get('dateTime')
+
+    events_parsed = copy.deepcopy(events_selected)
+    for event in events_parsed:
+        if 'start' in event.keys(): del event['start']
+        if 'end' in event.keys(): del event['end']
+
+    return events_parsed

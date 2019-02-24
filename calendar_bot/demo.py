@@ -1,10 +1,9 @@
 """Demo app."""
 
-from __future__ import print_function
-
 from googleapiclient.discovery import build
 
-from calendar_bot.calendar import get_creds, get_events_last_24h
+from calendar_bot.calendar import get_creds, get_events_last_24h, \
+    events_filter_keys
 
 
 def main():
@@ -14,12 +13,14 @@ def main():
     creds = get_creds()
     service = build('calendar', 'v3', credentials=creds)
     events = get_events_last_24h(service)
+    events_processed = events_filter_keys(events)
 
-    if not events:
+    if not events_processed:
         print('No upcoming events found.')
-    for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        print(start, event['summary'])
+    else:
+        print(f'Found {len(events_processed)} events within last 24 hours:')
+        for event in events_processed:
+            print('* ' + event['summary'])
 
 
 if __name__ == '__main__':
