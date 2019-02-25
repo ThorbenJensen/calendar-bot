@@ -30,6 +30,7 @@ def button(bot, update):
                           chat_id=query.message.chat_id,
                           message_id=query.message.message_id)
 
+
 def echo(bot, update):
     """Echo the user message."""
     update.message.reply_text('Start converstation with /start')
