@@ -1,4 +1,4 @@
-"""Demo app."""
+"""Demo calendar interaction."""
 
 from googleapiclient.discovery import build
 
