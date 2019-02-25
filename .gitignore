@@ -1,2 +1,7 @@
+# project
 secret/*
 .idea/
+
+# python
+__pycache__
+
