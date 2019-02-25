@@ -17,9 +17,11 @@ logger = logging.getLogger(__name__)
 # update. Error handlers also receive the raised TelegramError object in error.
 def start(bot, update):
     """Send a message when the command /start is issued."""
-    keyboard = [[InlineKeyboardButton("Option 1", callback_data='1'),
-                 InlineKeyboardButton("Option 2", callback_data='2')],
-                [InlineKeyboardButton("Option 3", callback_data='3')]]
+    keyboard = [[InlineKeyboardButton('  1  ', callback_data='1'),
+                 InlineKeyboardButton('  2  ', callback_data='2'),
+                 InlineKeyboardButton('  3  ', callback_data='3'),
+                 InlineKeyboardButton('  4  ', callback_data='4'),
+                 InlineKeyboardButton('  5  ', callback_data='5')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     update.message.reply_text('Hi!', reply_markup=reply_markup)
 
